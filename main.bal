@@ -1,6 +1,5 @@
 import ballerina/log;
 import ballerina/sql;
-import ballerina/time;
 import ballerinax/h2.driver as _;
 import ballerinax/java.jdbc;
 
