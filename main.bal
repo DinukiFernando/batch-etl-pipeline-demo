@@ -54,7 +54,7 @@ function transform(LoanRequest[] loanRequests, LoanApproval[] loanApprovals)
 
     // Group the `approvedLoans` by region, loanType, date, dayOfWeek
     // Hint: User ballerina integrated queries and use `sum` function when needed
-    RegionPerformance[] regionPerformance = from var {region, loanType, grantedAmount, interest, date, dayOfWeek}
+    RegionPerformance[] regionPerformance = from var {region, loanType, grantedAmount, interest, date, dayOfWeek, branch}
         in approvedLoans
         group by region, loanType, date, dayOfWeek
         select {
