@@ -4,10 +4,11 @@ on:
   schedule:
     # Set cron to run at 10:00 AM IST (GMT+5:30)
     - cron: '30 4 * * *'  # This corresponds to 10 AM in GMT+5:30 timezone
+  workflow_dispatch:  # No branches here, manual triggering is allowed for all branches
 
 jobs:
   run_ballerina:
-    name: Run Ballerina main.bal
+    name: Run Ballerina main.bal and Tests
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'  # Ensure this job runs only on the main branch
 
@@ -15,17 +16,21 @@ jobs:
       # Step 1: Set Ballerina version in GitHub environment variables
       - name: Set up Ballerina version
         run: |-
-          echo "balVersion=2201.9.2" >> $GITHUB_ENV
+          echo "balVersion=2201.10.1" >> $GITHUB_ENV
       
       # Step 2: Check out the repository code from the 'main' branch
       - uses: actions/checkout@v2
-      
+
       # Step 3: Install the specified version of Ballerina
       - uses: ballerina-platform/setup-ballerina@main
         name: Set up Ballerina
         with:
           version: ${{ env.balVersion }}
 
-      # Step 4: Run the Ballerina script (main.bal)
-      - name: Run Ballerina script
+      # Step 4: Run Ballerina tests
+      - name: Run Ballerina Tests
+        run: bal test
+
+      # Step 5: Run the main Ballerina script
+      - name: Run Ballerina Script
         run: bal run main.bal
